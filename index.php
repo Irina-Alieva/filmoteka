@@ -5,13 +5,40 @@ if (mysqli_connect_error()) {
 	 die('Ошибка подключения к базе данных');
 }
 
+//echo "<pre>";
+//print_r($_GET);
+//echo "</pre>";
 
+
+//Удаление из БД
+
+if ( @$_GET['action'] == 'delete') {
+  //echo "Удаляем фильм";
+  $query = "DELETE FROM films WHERE id= '" .  mysqli_real_escape_string($link,$_GET['id']) . "' LIMIT 1";
+
+  mysqli_query($link,$query);
+
+
+if ( mysqli_affected_rows($link)>0) {
+  $resultinfo = "<p>Фильм был удален!</p>";
+  //echo "<p>Фильм был удален!</p>";
+} else {
+  $resultError = "<p>Фильм НЕ был удален!";
+  //echo "<p>Фильм НЕ был удален!</p>";
+}
+
+
+}
+
+$errors = array();
+
+
+$resultSuccess = "";
+$resultInfo = "";
+$resultError = "";
 
 //Save form data to DB
 
-$resultSuccess = "";
-$resultError = "";
-$errors = array();
 
 if (array_key_exists('add-film', $_POST)){
 
@@ -63,10 +90,6 @@ if ($result = mysqli_query($link,$query) ){
 	 }
 }
 
-
-// echo "<pre>";
-// print_r($films);
-// echo "</pre>";
  ?>
 
 <!DOCTYPE html>
@@ -97,37 +120,32 @@ if ($result = mysqli_query($link,$query) ){
     <div class="info-success"><?=$resultSuccess?></div>
   <?php } ?>
 
+<?php if ( $resultInfo != '' ) { ?> 
+    <div class="info-notification"><?=$resultInfo?></div>
+  <?php } ?>
+
   <?php if ( $resultError != '' ) { ?> 
     <div class="error"><?=$resultError?></div>
   <?php } ?>
 
-
       <h1 class="title-1"> Фильмотека</h1>
 
       <?php
-        foreach ($films as $key => $film) {
-      // print_r($film);
-      // echo '<br><br>';
-      // echo $film['title'];
-      // echo '<br><br>';
-      // echo $film['genre'];
-      // echo '<br><br>';
-      // echo $film['year'];
-      // echo '<br><br>';
-      ?>
+       foreach ($films as $key => $film) {
+      
+     ?>
 
-
-
-
-
-
-
-
-      <div class="card mb-20">
+     <div class="card mb-20">
+      <div class="card-header">
         <h4 class="title-4"><?=$film['title']?></h4>
-        <div class="badge"><?=$film['genre']?></div>
-        <div class="badge"><?=$film['year']?></div>
+        <div class="buttons">
+          <a href="edit.php?id=<?=$film['id']?>" class="button button--edit">Редактировать</a>
+          <a href="?action=delete&id=<?=$film['id']?>" class="button button--delete">Удалить</a>  
+        </div>
       </div>
+      <div class="badge"><?=$film['genre']?></div>
+      <div class="badge"><?=$film['year']?></div>
+    </div>
 <?php } ?>
       <div class="panel-holder mt-80 mb-40">
         <div class="title-4 mt-0">Добавить фильм</div>
@@ -139,9 +157,7 @@ if ($result = mysqli_query($link,$query) ){
             }
           }
           ?>
-       
-
-
+ 
           <label class="label-title">Название фильма</label>
           <input class="input" type="text" placeholder="Такси 2" name="title"/>
           <div class="row">
@@ -155,8 +171,8 @@ if ($result = mysqli_query($link,$query) ){
             </div>
           </div>
           <input type="submit" class="button" value="Добавить" name="add-film">
-         
         </form>
+  
       </div>
     </div><!-- build:jsLibs js/libs.js -->
     <script src="libs/jquery/jquery.min.js"></script><!-- endbuild -->
