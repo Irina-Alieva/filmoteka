@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Апр 13 2018 г., 00:37
+-- Время создания: Апр 16 2018 г., 11:54
 -- Версия сервера: 5.6.38
 -- Версия PHP: 5.5.38
 
@@ -42,8 +42,8 @@ CREATE TABLE `films` (
 INSERT INTO `films` (`id`, `title`, `genre`, `year`) VALUES
 (1, 'Облачный атлас', 'драма', 2012),
 (2, 'Такси 2', 'комедия', 2000),
-(5, 'Аватар', 'Драма', 2006),
-(16, 'Морозко', 'сказка', 1965);
+(6, 'Морозко', 'сказка', 1965),
+(7, 'Аватар', 'драма', 2006);
 
 --
 -- Индексы сохранённых таблиц
@@ -63,7 +63,7 @@ ALTER TABLE `films`
 -- AUTO_INCREMENT для таблицы `films`
 --
 ALTER TABLE `films`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
