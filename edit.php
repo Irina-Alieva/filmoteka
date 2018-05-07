@@ -38,7 +38,7 @@ if (array_key_exists('update-film', $_POST)){
 //Если нет ошибок  - фильм сохраняем в БД
 if (empty($errors)) {
       //Изменение записи  в БД
-      $query = "UPDATE films (title, genre, year) SET
+      $query = "UPDATE films SET
                 title = '".mysqli_real_escape_string($link, $_POST['title'])."',
                 genre ='".mysqli_real_escape_string($link, $_POST['genre'])."',
                 year = '".mysqli_real_escape_string($link, $_POST['year'])."'
